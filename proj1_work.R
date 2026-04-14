@@ -3,6 +3,7 @@ library(dplyr)
 library(tidyr)
 library(tibble)
 library(stringr)
+library(ggplot2)
 
 
 # 1) Read in activity monitoring data
@@ -24,16 +25,40 @@ activity_data <- read_csv(activity_monitoring_file)
 
 
 # 2) Plot data
-#   2a) Histogram of total number of steps taken per day
-  #   2ai) Calculate total number of steps taken per day
-  #   2aii) Report the mean and median total number of steps taken per day
+# Total number of steps taken per day
+total_steps <- sum(activity_data$steps, na.rm = TRUE)
+print(total_steps)
+
+# Histogram of total number of steps taken per day
+ggplot(data = activity_data, aes(x = steps)) +
+  geom_histogram(fill = "skyblue", 
+                 color = "black") +
+  labs(title = "Distribution of Total Steps Per Day", 
+       x = "Steps Per Day", 
+       y = "Count") + 
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Mean of steps taken per day
+mean_steps <- mean(activity_data$steps, na.rm = TRUE)
+print(mean_steps)
+
+# Median of steps taken per day
+median_steps <- median(activity_data$steps, na.rm = TRUE)
+print(median_steps)
   
-  
-  
-#   2b) Time series plot of average daily activity pattern
-  #   type = "1"
-  #   x axis: 5-minute interval
-  #   y axis: average steps taken across all days
+# Time series plot of average daily activity pattern
+average_steps_5day <- activity_data %>%
+  group_by(interval) %>%
+  summarize(average_steps = mean(steps, na.rm = TRUE))
+
+ggplot(average_steps_5day, aes(x = interval,
+                               y = average_steps)) +
+         geom_line(color = "black") +
+  labs(title = "Average Daily Activity Pattern (5-Minute Intervals)",
+       x = "Interval",
+       y = "Average Number of Steps Across All Days") +
+  theme(plot.title = element_text(hjust = 0.5))
+      
 
 
 #   2c) Impute missing values
