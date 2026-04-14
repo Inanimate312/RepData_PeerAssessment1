@@ -1,10 +1,12 @@
-library(readr)
 library(dplyr)
-library(stringr)
 library(ggplot2)
 library(data.table)
 
 # 1) Read in activity monitoring data
+
+
+
+
 url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
 
 zipfile <- file.path(getwd(), 

@@ -7,8 +7,29 @@ output:
 
 
 ## Loading and preprocessing the data
+First, we load required R packages and download and unzip the ZIP file containing
+the data for this analysis, if it has not already been downloaded and unzipped. 
+Then, we read in the data.
 
 
+```{r setup, echo=TRUE}
+library(dplyr)
+library(ggplot2)
+library(data.table)
+
+url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
+
+zipfile <- file.path(getwd(),"activity_monitoring.zip")
+                     
+if(!file.exists(zipfile)) {
+  download.file(url, destfile = zipfile)
+  unzip(zipfile)
+}
+
+activity_monitoring_file <- file.path(getwd(),"activity.csv")
+
+activity_data <- read_csv(activity_monitoring_file)
+```
 
 ## What is mean total number of steps taken per day?
 
